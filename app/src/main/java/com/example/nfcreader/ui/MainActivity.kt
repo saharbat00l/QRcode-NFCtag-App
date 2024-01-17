@@ -1,9 +1,8 @@
-package com.example.nfcreader
+package com.example.nfcreader.ui
 
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.nfc.NdefMessage
 import android.nfc.NdefRecord
@@ -11,12 +10,12 @@ import android.nfc.NfcAdapter
 import android.nfc.NfcManager
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import android.nfc.tech.NfcA
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
+import android.widget.Button
 import android.widget.Toast
+import com.example.nfcreader.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +27,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initNfcAdapter()
+         val qrButton: Button = findViewById(R.id.qrbutton)
+        qrButton.setOnClickListener{
+            val newIntent = Intent(this, QRActivity::class.java)
+//            newIntent.putExtra("NFC_TAG_ID", nfcTagId)
+            startActivity(newIntent)
+        }
 
     }
 
@@ -69,9 +74,6 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    /**
-     * Check whether the device supports nfc or not!
-     */
     private fun checkNFCDeviceSupport(): Boolean {
         if (adapter == null) {
             Log.e(TAG, "checkNFCDeviceSupport: NFC NOT supported on this device!")
